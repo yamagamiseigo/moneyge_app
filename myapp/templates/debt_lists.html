@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>借入先一覧</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-top: 0;
+            color: #2c3e50;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 10px;
+        }
+
+        /* 総額を表示するボックス */
+        .total-box {
+            background-color: #eef2f7;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        /* 新規登録ボタン */
+        .btn-create {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 25px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-create:hover {
+            background-color: #2980b9;
+        }
+
+        /* テーブル（一覧）のスタイル */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: #4a5568;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .empty-msg {
+            text-align: center;
+            color: #718096;
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>借入先一覧</h1>
+
+        <div class="total-box">
+            現在の借金総額: {{ total_balance }}円
+        </div>
+
+        <!-- 新規登録画面へのリンクを追加 -->
+        <p>
+            <tr>
+                <a href="{% url 'debt_create' %}" class="btn-create">+ 新しい借入を登録する</a>
+                <a href="{% url 'debt_repay' %}" class="btn-create">返済金額を入力する</a>
+            </tr>
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>借入先名</th>
+                    <th>現在残高</th>
+                    <th>年間利率</th>
+                    <th>年間利息</th>
+                    <th>現返済額</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for debt in debt_lists %}
+                    <tr>
+                        <td><strong><a href="{% url 'detail' debt.id %}">{{ debt.name_lender }}</a></strong></td>
+                        <td>{{ debt.current_balance }} 円</td>
+                        <td>{{ debt.annual_interest_rate }} %</td>
+                        <td>{{ debt.calc_annual_interset }}円</td>
+                        <td>{{ debt.calc_annual_interset }}円</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" class="empty-msg">データがまだ登録されていません。</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

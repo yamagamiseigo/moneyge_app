@@ -1,0 +1,17 @@
+name_lender
+ = 借入先名
+
+current_balance
+=現在の残高
+
+annual_interest_rate
+=年間利率
+
+monthly_repayment
+=月次の返済額
+
+montthly_payment_date
+=毎月の返済日
+
+editor_owner
+=更新者

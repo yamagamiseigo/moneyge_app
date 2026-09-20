@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>一括返済入力</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 40px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-top: 0;
+            color: #2c3e50;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e1e8ed;
+        }
+        th {
+            background-color: #f8fafc;
+            color: #4a5568;
+        }
+        input[type="number"] {
+            width: 120px;
+            padding: 8px;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .btn-submit {
+            background-color: #27ae60;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .btn-submit:hover {
+            background-color: #219653;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #718096;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>今月の返済額の入力</h1>
+        <p>それぞれの借入先の今月の返済額を入力してください（返済がないところは空欄でOKです）。</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>借入先名</th>
+                        <th>現在の残高</th>
+                        <th>今月の返済額 (円)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for debt in debt_lists %}
+                        <tr>
+                            <td><strong>{{ debt.name_lender }}</strong></td>
+                            <td>{{ debt.current_balance }} 円</td>
+                            <td>
+                                <!-- どの会社の返済か区別できるように name に debt.id を含める -->
+                                <input type="number" name="repay_{{ debt.id }}" placeholder="0" min="0">
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="3" style="text-align: center; color: #718096; padding: 30px;">
+                                登録されている借入先がありません。
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <button type="submit" class="btn-submit">一括で残高を更新する</button>
+        </form>
+
+        <p><a href="{% url 'debts' %}" class="back-link">&larr; 一覧画面に戻る</a></p>
+    </div>
+</body>
+</html>

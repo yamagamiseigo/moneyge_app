@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>借入の新規登録</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            margin-top: 0;
+            color: #2c3e50;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 10px;
+        }
+
+        /* フォーム全体の配置（Djangoの form.as_p が出力する p タグや input を整える） */
+        form {
+            margin-top: 20px;
+        }
+
+        form p {
+            margin-bottom: 20px;
+        }
+
+        form label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        form input[type="text"],
+        form input[type="number"],
+        form select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        form input:focus,
+        form select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+        }
+
+        /* 登録ボタン */
+        button[type="submit"] {
+            background-color: #27ae60;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #219653;
+        }
+
+        /* 一覧に戻るリンク */
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #718096;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        a:hover {
+            color: #2c3e50;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>借入データの新規登録</h1>
+        <!--formタグで囲った内容がsubmitによりPOSTで下に返される-->
+        <form method="POST">
+            {% csrf_token %}  <!-- Djangoのお決まりのセキュリティタグ -->
+            
+            {{ form.as_p }}   <!-- フォームの項目を段落（pタグ）形式で自動展開して表示してくれる -->
+            
+            <button type="submit">登録する</button>
+        </form>
+
+        <br>
+        <a href="{% url 'debts' %}">一覧に戻る</a>
+    </div>
+</body>
+</html>
