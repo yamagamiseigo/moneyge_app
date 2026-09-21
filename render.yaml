@@ -1,0 +1,16 @@
+# Exported from Render on 2026-09-21T07:23:48Z
+version: "1"
+projects:
+- name: My project
+  environments:
+  - name: Production
+    services:
+    - type: web
+      name: moneyge_app
+      runtime: python
+      repo: https://github.com/yamagamiseigo/moneyge_app
+      plan: free
+      region: oregon
+      buildCommand: pip install -r requirements.txt && python manage.py migrate
+      startCommand: gunicorn moneyge_app.wsgi:application
+      autoDeployTrigger: commit
