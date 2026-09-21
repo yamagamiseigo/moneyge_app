@@ -1,4 +1,5 @@
-streamlit
-pandas
-scikit-learn
-pygame
+Django>=4.0
+gunicorn
+whitenoise
+dj-database-url
+psycopg2-binary
